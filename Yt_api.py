@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from from flask import Flask, request, jsonify
 import yt_dlp
 import uuid
 import os
@@ -9,7 +9,7 @@ os.makedirs(DOWNLOAD_DIR, exist_ok=True)
 
 @app.route("/")
 def home():
-    return "YouTube Downloader API is live!"
+    return "YouTube High-Quality Downloader API is live!"
 
 @app.route("/download", methods=["GET"])
 def download_video():
@@ -21,8 +21,12 @@ def download_video():
     filepath = os.path.join(DOWNLOAD_DIR, filename)
 
     ydl_opts = {
-        "format": "best",
+        "format": "bestvideo+bestaudio",
         "outtmpl": filepath,
+        "merge_output_format": "mp4",
+        "postprocessors": [{
+            "key": "FFmpegMerger",
+        }],
         "quiet": True,
     }
 
